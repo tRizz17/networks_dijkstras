@@ -27,6 +27,7 @@ class Graph:
     def __contains__(self, v):
         return v in self._nbrs
 
+    # This is for making sure the graph is being populated correctly
     def __str__(self):
         for i, v in enumerate(self.vertices()):
             print(f"vertex {i}: {v}")

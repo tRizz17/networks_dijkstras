@@ -57,62 +57,7 @@ def find_router_for_ip(routers, ip):
     for key in keys_list:
         if ips_same_subnet(ip, key, routers[key]["netmask"]):
             return key
-
     return None
-
-
-"""
-This function takes a dictionary representing the network, a source
-IP, and a destination IP, and returns a list with all the routers
-along the shortest path.
-
-The source and destination IPs are **not** included in this path.
-
-Note that the source IP and destination IP will probably not be
-routers! They will be on the same subnet as the router. You'll have
-to search the routers to find the one on the same subnet as the
-source IP. Same for the destination IP. [Hint: make use of your
-find_router_for_ip() function from the last project!]
-
-The dictionary keys are router IPs, and the values are dictionaries
-with a bunch of information, including the routers that are directly
-connected to the key.
-
-This partial example shows that router `10.31.98.1` is connected to
-three other routers: `10.34.166.1`, `10.34.194.1`, and `10.34.46.1`:
-
-{
-    "10.34.98.1": {
-        "connections": {
-            "10.34.166.1": {
-                "netmask": "/24",
-                "interface": "en0",
-                "ad": 70
-            },
-            "10.34.194.1": {
-                "netmask": "/24",
-                "interface": "en1",
-                "ad": 93
-            },
-            "10.34.46.1": {
-                "netmask": "/24",
-                "interface": "en2",
-                "ad": 64
-            }
-        },
-        "netmask": "/24",
-        "if_count": 3,
-        "if_prefix": "en"
-    },
-    ...
-
-The "ad" (Administrative Distance) field is the edge weight for that
-connection.
-
-**Strong recommendation**: make functions to do subtasks within this
-function. Having it all built as a single wall of code is a recipe
-for madness.
-"""
 
 
 def build_graph(routers):
@@ -122,7 +67,6 @@ def build_graph(routers):
         for connection, parts in values["connections"].items():
             graph.add_edge(ip_addr, (connection, parts['ad']))
     return graph
-
 
 
 def dijkstras_shortest_path(routers, src_ip, dest_ip):
