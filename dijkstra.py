@@ -135,18 +135,26 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
     distance = {}
 
     for vertex in graph.vertices():
-        distance[vertex] = float('inf')
-        to_visit.put((distance[vertex], vertex))
+        if vertex != src_router:
+            distance[vertex] = float('inf')
+            to_visit.put((distance[vertex], vertex))
 
     parent = {}
     parent[src_router] = None
     distance[src_router] = 0
+    to_visit.put((distance[src_router], src_router))
 
     while to_visit:
         _, curr_router = to_visit.get()
 
         if curr_router == dest_router:
-            print(parent)
+            if parent[curr_router]:
+                path = []
+                path.append(curr_router)
+                while parent[curr_router]:
+                    path.append(parent[curr_router])
+                    curr_router = parent[curr_router]
+                    return path[::-1]
             return []
 
         for neighbor in graph.neighbors(curr_router):
@@ -156,6 +164,7 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
                 distance[nbr_ip] = alt
                 parent[nbr_ip] = curr_router
                 to_visit.put((alt, nbr_ip))
+    
 
 
 #------------------------------
