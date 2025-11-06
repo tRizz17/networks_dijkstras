@@ -151,10 +151,10 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
             if parent[curr_router]:
                 path = []
                 path.append(curr_router)
-                while parent[curr_router]:
+                while parent[curr_router] is not None:
                     path.append(parent[curr_router])
                     curr_router = parent[curr_router]
-                    return path[::-1]
+                return path[::-1]
             return []
 
         for neighbor in graph.neighbors(curr_router):
